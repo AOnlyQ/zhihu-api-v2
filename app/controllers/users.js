@@ -1,18 +1,15 @@
 const { required } = require("nodemon/lib/config")
-
-const db = [{ name: '李雷' }, { name: "张三" }]
+const User = require('../models/users')
 class UserCtrl {
-  find (ctx) {
-    a.b = 3
-    ctx.body = db
+  async find (ctx) {
+    ctx.body = await User.find()
   }
-  findId (ctx) {
-    if (+ctx.params.id >= db.length) {
-      ctx.throw(412, '先决条件失败：id大于数组条件长度')
-    }
-    ctx.body = db[+ctx.params.id]
+  async findId (ctx) {
+    const user = await User.findById(ctx.params.id)
+    if (!user) ctx.throw(404, '用户不存在')
+    ctx.body = user
   }
-  create (ctx) {
+  async create (ctx) {
     ctx.verifyParams({
       name: {
         type: 'string',
@@ -23,13 +20,10 @@ class UserCtrl {
         required: false
       }
     })
-    db.push(ctx.request.body)
-    ctx.body = ctx.request.body
+    const user = await new User(ctx.request.body).save()
+    ctx.body = user
   }
-  update (ctx) {
-    if (ctx.params.id >= db.length) {
-      ctx.throw(412, '先决条件失败：id大于数组条件长度')
-    }
+  async update (ctx) {
     ctx.verifyParams({
       name: {
         type: 'string',
@@ -40,15 +34,16 @@ class UserCtrl {
         required: false
       }
     })
-
-    db[+ctx.params.id] = ctx.request.body
-    ctx.body = ctx.request.body
+    const user = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body)
+    if (!user) ctx.throw(404, '用户不存在')
+    ctx.body = user
   }
   delete (ctx) {
     if (ctx.params.id >= db.length) {
       ctx.throw(412, '先决条件失败：id大于数组条件长度')
     }
-    db.splice(+ctx.params.id, 1)
+    const user = User.findByIdAndRemove(ctx.params.id)
+    if (!user) ctx.throw(404, '用户不存在')
     ctx.status = 204 //没有内容，但是成功了
   }
 }

@@ -28,7 +28,7 @@ const { secret } = require('../config')
 //   // 执行后面的中间件
 //   await next();
 // }
-// const auth = jwt({ secret })
+const auth = jwt({ secret })
 
 
 // 用户登录

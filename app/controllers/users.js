@@ -28,7 +28,9 @@ class UserCtrl {
     ctx.body = await User.find()
   }
   async findId (ctx) {
-    const user = await User.findById(ctx.params.id)
+    const { fields } = ctx.query
+    const selectFields = fields.split(';').filter(item => item).map(f => ' +' + f).join('')
+    const user = await User.findById(ctx.params.id).select(selectFields)
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user
   }
@@ -53,16 +55,17 @@ class UserCtrl {
   }
   async update (ctx) {
     ctx.verifyParams({
-      username: {
-        type: 'string',
-        required: false
-      },
-      password: {
-        type: 'string',
-        required: false
-      }
+      username: { type: 'string', required: false },
+      password: { type: 'string', required: false },
+      avatar_url: { type: 'string', required: false }, // 用户头像
+      gender: { type: 'string', required: false },
+      headline: { type: 'string', required: false },
+      locations: { type: 'array', itemType: 'string', required: false },
+      business: { type: 'string', required: false },
+      employments: { type: 'array', itemType: 'object', required: false },
+      educations: { type: 'array', itemType: 'object', required: false }
     })
-  
+
     const user = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body, { new: true })
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user

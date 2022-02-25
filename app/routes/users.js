@@ -1,13 +1,12 @@
 const Router = require('koa-router')
 const router = new Router({ prefix: '/users' })
-const { find, findId, create, update, deleteById, login, checkOwner } = require('../controllers/users')
+const { find, findId, create, update, deleteById, login, checkOwner,
+  listFollowing, listFollowers, follow, unfollow, checkUserExist
+} = require('../controllers/users')
 
 const jsonwebtoken = require("jsonwebtoken")
 const jwt = require("koa-jwt")
-
 const { secret } = require('../config')
-
-
 // 自定义认证中间件
 // const auth = async (ctx, next) => {
 //   const { authorization = '' } = ctx.request.header;
@@ -30,23 +29,23 @@ const { secret } = require('../config')
 // }
 const auth = jwt({ secret })
 
-
 // 用户登录
-router.post("/login",  login)
-
-// 获取用户列表
-router.get('/', find);
-
-
-// 获取特定用户
-router.get("/:id", findId)
-
+router.post("/login", login)
+router.get('/', find); // 获取用户列表
+router.get("/:id", findId) // 获取特定用户
 // 增加用户
 router.post('/', create)
-
 // 修改特定用户
 router.patch('/:id', auth, checkOwner, update)
-
 // 删除用户
 router.delete('/:id', auth, checkOwner, deleteById)
+// 获取关注列表
+router.get('/:id/following', listFollowing)
+// 获取粉丝
+router.get('/:id/followers', listFollowers)
+// 关注某人
+router.put('/following/:id', auth, checkUserExist, follow)
+// 取消关注某人
+router.put('/unfollowing/:id', auth, checkUserExist, unfollow)
+
 module.exports = router

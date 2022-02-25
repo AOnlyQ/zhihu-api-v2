@@ -26,9 +26,13 @@ const userSchema = new Schema({
       graduation_year: { type: Number }
     }],
     select: false
+  },
+  following: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    select: false
   }
 
 })
 
 // user代表集合，导出的是一个类
-module.exports = model('user', userSchema)
+module.exports = model('User', userSchema)

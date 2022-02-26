@@ -1,6 +1,6 @@
 const Router = require('koa-router')
 const router = new Router({ prefix: '/topics' })
-const { find, findById, create, update } = require('../controllers/topics')
+const { find, findById, create, update, checkTopicExist, listTopicsFollowers } = require('../controllers/topics')
 const { secret } = require('../config')
 const jwt = require('koa-jwt')
 // 认证中间件
@@ -14,4 +14,7 @@ router.post('/', auth, create)
 router.get('/:id', findById)
 // 修改特定话题
 router.patch('/:id', auth, update)
+// 获取当前话题下的关注者
+router.get('/:id/followers', checkTopicExist, listTopicsFollowers)
+
 module.exports = router

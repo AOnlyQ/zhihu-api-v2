@@ -34,7 +34,10 @@ class UsersCtl {
     await next()
   }
   async find (ctx) {
-    ctx.body = await User.find()
+    const { per_page = 10 } = ctx.query
+    const page = Math.max(+ctx.query.page, 1) - 1
+    const perPage = Math.max(per_page * 1, 1)
+    ctx.body = await User.find({ username: new RegExp(ctx.query.q) }).limit(perPage).skip(page * perPage)
   }
   async findId (ctx) {
     // fields指定显示隐藏字段,默认值为空
@@ -117,6 +120,31 @@ class UsersCtl {
       me.save()
     }
     ctx.status = 204
+  }
+  // 关注某个话题
+  async followTopic (ctx) {
+    const me = await User.findById(ctx.state.user._id).select('+followingTopics')
+    if (!me.followingTopics.map(item => item.toString()).includes(ctx.params.id)) {
+      me.followingTopics.push(ctx.params.id)
+      me.save()
+    }
+    ctx.status = 204
+  }
+  // 取消关注某个话题
+  async unfollowTopic (ctx) {
+    const me = await User.findById(ctx.state.user._id).select("+followingTopics")
+    const index = me.followingTopics.map(item => item.toString()).indexOf(ctx.params.id)
+    if (index > -1) {
+      me.followingTopics.splice(index, 1)
+      me.save()
+    }
+    ctx.status = 204
+  }
+  // 获取用户话题关注列表
+  async listFollowingTopics (ctx) {
+    const user = await User.findById(ctx.params.id).select("+followingTopics").populate('followingTopics')
+    if (!user) ctx.throw(404, '用户不存在')
+    ctx.body = user.followingTopics
   }
 
 }

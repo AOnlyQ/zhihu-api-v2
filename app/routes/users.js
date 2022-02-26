@@ -1,12 +1,14 @@
 const Router = require('koa-router')
 const router = new Router({ prefix: '/users' })
 const { find, findId, create, update, deleteById, login, checkOwner,
-  listFollowing, listFollowers, follow, unfollow, checkUserExist
+  listFollowing, listFollowers, follow, unfollow, checkUserExist,
+  followTopic, unfollowTopic, listFollowingTopics
 } = require('../controllers/users')
-
-const jsonwebtoken = require("jsonwebtoken")
+const { checkTopicExist } = require('../controllers/topics')
+// const jsonwebtoken = require("jsonwebtoken")
 const jwt = require("koa-jwt")
 const { secret } = require('../config')
+
 // 自定义认证中间件
 // const auth = async (ctx, next) => {
 //   const { authorization = '' } = ctx.request.header;
@@ -47,5 +49,12 @@ router.get('/:id/followers', listFollowers)
 router.put('/following/:id', auth, checkUserExist, follow)
 // 取消关注某人
 router.put('/unfollowing/:id', auth, checkUserExist, unfollow)
+
+// 关注话题
+router.put('/followingTopic/:id', auth, checkTopicExist, followTopic)
+// 取消关注话题
+router.put('/unfollowingTopic/:id', auth, checkTopicExist, unfollowTopic)
+// 获取特定用户关注的话题列表
+router.get('/:id/listFollowingTopics', listFollowingTopics)
 
 module.exports = router

@@ -2,7 +2,7 @@ const { required } = require("nodemon/lib/config")
 const jsonwebtoken = require('jsonwebtoken')
 const { secret } = require('../config')
 const User = require('../models/users')
-class UserCtrl {
+class UsersCtl {
   async login (ctx) {
     ctx.verifyParams({
       username: { type: 'string', required: true },
@@ -37,22 +37,25 @@ class UserCtrl {
     ctx.body = await User.find()
   }
   async findId (ctx) {
-    const { fields } = ctx.query
+    // fields指定显示隐藏字段,默认值为空
+    const { fields = '' } = ctx.query
     const selectFields = fields.split(';').filter(item => item).map(f => ' +' + f).join('')
+    // populateStr指定显示哪些引用话题字段
+    const populateStr = fields.split(';').filter(item => item).map(item => {
+      if (item === 'employments') return 'employments.company employments.job';
+      if (item === 'educations') return 'educations.school educations.major';
+      return item;
+    }).join(' ');
     const user = await User.findById(ctx.params.id).select(selectFields)
+      .populate(populateStr)
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user
   }
   async create (ctx) {
+    // 创建前的字段校验
     ctx.verifyParams({
-      username: {
-        type: 'string',
-        required: true
-      },
-      password: {
-        type: 'string',
-        required: true
-      }
+      username: { type: 'string', required: true },
+      password: { type: 'string', required: true }
     })
     const { username } = ctx.request.body
     const repeatedUser = await User.findOne({ username })
@@ -74,7 +77,7 @@ class UserCtrl {
       employments: { type: 'array', itemType: 'object', required: false },
       educations: { type: 'array', itemType: 'object', required: false }
     })
-
+    // { new: true } 返回更新后的数据
     const user = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body, { new: true })
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user
@@ -117,4 +120,4 @@ class UserCtrl {
   }
 
 }
-module.exports = new UserCtrl()
+module.exports = new UsersCtl()

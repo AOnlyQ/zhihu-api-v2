@@ -2,7 +2,7 @@ const Router = require('koa-router')
 const router = new Router({ prefix: '/users' })
 const { find, findId, create, update, deleteById, login, checkOwner,
   listFollowing, listFollowers, follow, unfollow, checkUserExist,
-  followTopic, unfollowTopic, listFollowingTopics
+  followTopic, unfollowTopic, listFollowingTopics, listQuestions
 } = require('../controllers/users')
 const { checkTopicExist } = require('../controllers/topics')
 // const jsonwebtoken = require("jsonwebtoken")
@@ -56,5 +56,6 @@ router.put('/followingTopic/:id', auth, checkTopicExist, followTopic)
 router.put('/unfollowingTopic/:id', auth, checkTopicExist, unfollowTopic)
 // 获取特定用户关注的话题列表
 router.get('/:id/listFollowingTopics', listFollowingTopics)
-
+// 获取某用户提的问题列表
+router.get('/:id/questions', checkUserExist, listQuestions)
 module.exports = router

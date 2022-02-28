@@ -2,6 +2,8 @@ const { required } = require("nodemon/lib/config")
 const jsonwebtoken = require('jsonwebtoken')
 const { secret } = require('../config')
 const User = require('../models/users')
+const Question = require('../models/questions')
+
 class UsersCtl {
   async login (ctx) {
     ctx.verifyParams({
@@ -82,6 +84,7 @@ class UsersCtl {
     })
     // { new: true } 返回更新后的数据
     const user = await User.findByIdAndUpdate(ctx.params.id, ctx.request.body, { new: true })
+
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user
   }
@@ -145,6 +148,11 @@ class UsersCtl {
     const user = await User.findById(ctx.params.id).select("+followingTopics").populate('followingTopics')
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user.followingTopics
+  }
+  // 获取用户的提问问题列表
+  async listQuestions (ctx) {
+    const questions = await Question.find({ questioner: ctx.params.id })
+    ctx.body = questions
   }
 
 }

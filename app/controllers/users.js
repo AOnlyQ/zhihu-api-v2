@@ -36,10 +36,12 @@ class UsersCtl {
     await next()
   }
   async find (ctx) {
-    const { per_page = 10 } = ctx.query
-    const page = Math.max(+ctx.query.page, 1) - 1
-    const perPage = Math.max(per_page * 1, 1)
-    ctx.body = await User.find({ username: new RegExp(ctx.query.q) }).limit(perPage).skip(page * perPage)
+
+    const { per_page, page = 1 } = ctx.query
+    // 不存在时即没传(undefined)或者传空 将perPage设置为10
+    const perPage = !per_page ? 10 : +per_page
+    const skipPage = Math.max(page * 1, 1) - 1
+    ctx.body = await User.find({ username: new RegExp(ctx.query.q) }).limit(perPage).skip(skipPage * perPage)
   }
   async findId (ctx) {
     // fields指定显示隐藏字段,默认值为空

@@ -2,11 +2,12 @@ const Question = require('../models/questions')
 
 class QuestionsCtl {
   async find (ctx) {
-    const { per_page = 10 } = ctx.query
-    const perPage = Math.max(+per_page, 1)
-    const page = Math.max(+ctx.query.page, 1) - 1
+    const { per_page, page = 1 } = ctx.query
+    // 不存在时即没传(undefined)或者传空 将perPage设置为10
+    const perPage = !per_page ? 10 : +per_page
+    const skipPage = Math.max(page * 1, 1) - 1
     const q = new RegExp(ctx.query.q)
-    ctx.body = await Question.find({ $or: [{ title: q }, { description: q }] }).limit(perPage).skip(page * perPage)
+    ctx.body = await Question.find({ $or: [{ title: q }, { description: q }] }).limit(perPage).skip(skipPage * perPage)
   }
   async findById (ctx) {
     const { fields = '' } = ctx.query

@@ -3,7 +3,8 @@ class AnswersCtl {
   async checkAnswerExist (ctx, next) {
     const answer = await Answer.findById(ctx.params.id).select("+answerer +questionId")
     if (!answer) ctx.throw(404, '答案不存在')
-    if (answer.questionId !== ctx.params.questionId) ctx.throw(404, '该问题下没有此答案')
+    // 只有删改查答案才检查是否有questionId,赞和踩答案不检查
+    if (ctx.params.questionId && answer.questionId !== ctx.params.questionId) ctx.throw(404, '该问题下没有此答案')
     ctx.state.answer = answer
     await next()
   }

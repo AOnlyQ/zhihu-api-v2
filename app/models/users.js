@@ -34,8 +34,17 @@ const userSchema = new Schema({
   followingTopics: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Topic' }],
     select: false
-  }
-
+  },
+  // 赞过的答案
+  likingAnswers: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }], select: false
+  },
+  // 踩过的答案
+  dislikingAnswers: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }], select: false
+  },
+  //  收藏答案
+  collectingAnswers: { type: [{ type: Schema.Types.ObjectId, ref: 'Answer' }], select: false }
 })
 
 // user代表集合，导出的是一个类

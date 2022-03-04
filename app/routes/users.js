@@ -1,10 +1,14 @@
 const Router = require('koa-router')
 const router = new Router({ prefix: '/users' })
-const { find, findId, create, update, deleteById, login, checkOwner,
-  listFollowing, listFollowers, follow, unfollow, checkUserExist,
-  followTopic, unfollowTopic, listFollowingTopics, listQuestions
+const { checkUserExist, checkOwner, login,
+  find, findId, create, update, deleteById,
+  listFollowing, listFollowers, follow, unfollow,
+  followTopic, unfollowTopic, listFollowingTopics, listQuestions,
+  listLikingAnswers, listDisLikingAnswers, likeAnswer, dislikeANswer, unlikeAnswer, undislikeAnswer,
+  listCollectAnswers, collectAnswer, uncollectAnswer
 } = require('../controllers/users')
 const { checkTopicExist } = require('../controllers/topics')
+const { checkAnswerExist } = require('../controllers/answers')
 // const jsonwebtoken = require("jsonwebtoken")
 const jwt = require("koa-jwt")
 const { secret } = require('../config')
@@ -58,4 +62,19 @@ router.put('/unfollowingTopic/:id', auth, checkTopicExist, unfollowTopic)
 router.get('/:id/listFollowingTopics', listFollowingTopics)
 // 获取某用户提的问题列表
 router.get('/:id/questions', checkUserExist, listQuestions)
+// 获取某用户喜欢的答案列表，id为用户id
+router.get('/:id/likingAnswers', listLikingAnswers)
+// 点赞某答案,id为答案id
+router.put('/likingAnswers/:id', auth, checkAnswerExist, likeAnswer, undislikeAnswer)
+// 取消点赞答案
+router.delete('/likingAnswers/:id', auth, checkAnswerExist, unlikeAnswer)
+// 获取某用户踩的答案列表，id为用户id
+router.get('/:id/dislikingAnswers', listDisLikingAnswers)
+router.put('/dislikingAnswers/:id', auth, checkAnswerExist, dislikeANswer, unlikeAnswer)
+router.delete('/dislikingAnswers/:id', auth, checkAnswerExist, undislikeAnswer)
+// 收藏答案列表
+router.get('/:id/collectAnswers', listCollectAnswers)
+router.put('/collectAnswers/:id', auth, checkAnswerExist, collectAnswer)
+router.delete('/collectAnswers/:id', auth, checkAnswerExist, uncollectAnswer)
+
 module.exports = router

@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "62223eaf4c0dc274ac7fd2c1"
+  },
+  "content": "非常好",
+  "commentator": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "questionId": "6221b48e1236727cec222629",
+  "answerId": "6221b5d71236727cec22262f",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6222441e4e44f9bfcde81191"
+  },
+  "content": "同意楼上的说法",
+  "commentator": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "questionId": "6221b48e1236727cec222629",
+  "answerId": "6221b5d71236727cec22262f",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "622246f5a0d8caa5e26d07ac"
+  },
+  "content": "一级评论",
+  "commentator": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "questionId": "6221b48e1236727cec222629",
+  "answerId": "6221b5d71236727cec22262f",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6222492252861e3d7ecf25bd"
+  },
+  "content": "二级评论",
+  "commentator": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "questionId": "6221b48e1236727cec222629",
+  "answerId": "6221b5d71236727cec22262f",
+  "rootCommentId": "622246f5a0d8caa5e26d07ac",
+  "replyTo": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6222adc2f9bb94907d75bc74"
+  },
+  "content": "一级评论2",
+  "commentator": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "questionId": "6221b48e1236727cec222629",
+  "answerId": "6221b5d71236727cec22262f",
+  "createdAt": {
+    "$date": "2022-03-05T00:24:34.411Z"
+  },
+  "updatedAt": {
+    "$date": "2022-03-05T00:24:34.411Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,84 @@
+[{
+  "_id": {
+    "$oid": "62218bfc1236727cec222617"
+  },
+  "username": "admin",
+  "password": "123456",
+  "gender": "male",
+  "locations": [],
+  "following": [],
+  "followingTopics": [],
+  "likingAnswers": [
+    {
+      "$oid": "6221b5d71236727cec22262f"
+    },
+    {
+      "$oid": "6221b62e1236727cec222631"
+    }
+  ],
+  "dislikingAnswers": [],
+  "employments": [],
+  "educations": [],
+  "__v": 0,
+  "collectingAnswers": []
+},{
+  "_id": {
+    "$oid": "6221af601236727cec22261a"
+  },
+  "username": "test",
+  "password": "123456",
+  "gender": "male",
+  "locations": [],
+  "following": [],
+  "followingTopics": [],
+  "likingAnswers": [],
+  "dislikingAnswers": [],
+  "employments": [],
+  "educations": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6221af811236727cec22261d"
+  },
+  "username": "张三",
+  "password": "123456",
+  "gender": "male",
+  "locations": [],
+  "following": [],
+  "followingTopics": [],
+  "likingAnswers": [],
+  "dislikingAnswers": [],
+  "employments": [],
+  "educations": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6221af871236727cec222620"
+  },
+  "username": "李四",
+  "password": "123456",
+  "gender": "male",
+  "locations": [],
+  "following": [],
+  "followingTopics": [],
+  "likingAnswers": [],
+  "dislikingAnswers": [],
+  "employments": [],
+  "educations": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6221af8e1236727cec222623"
+  },
+  "username": "王五",
+  "password": "123456",
+  "gender": "male",
+  "locations": [],
+  "following": [],
+  "followingTopics": [],
+  "likingAnswers": [],
+  "dislikingAnswers": [],
+  "employments": [],
+  "educations": [],
+  "__v": 0
+}]

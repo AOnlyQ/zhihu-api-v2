@@ -6,7 +6,11 @@
   "password": "123456",
   "gender": "male",
   "locations": [],
-  "following": [],
+  "following": [
+    {
+      "$oid": "6221af601236727cec22261a"
+    }
+  ],
   "followingTopics": [],
   "likingAnswers": [
     {

@@ -18,7 +18,6 @@ class UsersCtl {
     const token = jsonwebtoken.sign({ _id, username }, secret, { expiresIn: '1h' })
     // ctx.body = { _id, username, token }
     ctx.body = { token }
-    console.log("ctx.state.user", ctx.state.user)
 
 
   }
@@ -26,6 +25,7 @@ class UsersCtl {
   async checkOwner (ctx, next) {
     // console.log("ctx.state.user", ctx.state.user)
     if (ctx.params.id !== ctx.state.user._id) ctx.throw('403', '没有权限')
+
     await next()
   }
   // 检查用户是否存在

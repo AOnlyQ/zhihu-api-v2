@@ -9,7 +9,9 @@ const app = new Koa();
 const routing = require('./routes')
 const { connectionLocal ,connectionStr} = require('./config.js')
 
-mongoose.connect(connectionStr, { useNewUrlParser: true }, () => console.log('MongoDB 连接成功'))
+mongoose.connect(connectionLocal, { useNewUrlParser: true }, () => console.log('MongoDB 连接成功'))
+// mongoose.connect(connectionStr, { useNewUrlParser: true }, () => console.log('MongoDB 连接成功'))
+
 mongoose.connection.on('error', console.error)
 
 app.use(koaStatic(path.join(__dirname, 'public')))

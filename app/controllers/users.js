@@ -18,6 +18,7 @@ class UsersCtl {
     const token = jsonwebtoken.sign({ _id, username }, secret, { expiresIn: '1h' })
     // ctx.body = { _id, username, token }
     ctx.body = { token }
+    console.log("ctx.state.user", ctx.state.user)
 
 
   }
@@ -217,8 +218,8 @@ class UsersCtl {
     if (!user) ctx.throw(404, '用户不存在')
     ctx.body = user.collectingAnswers
   }
-   // 收藏某答案
-   async collectAnswer (ctx, next) {
+  // 收藏某答案
+  async collectAnswer (ctx, next) {
     const me = await User.findById(ctx.state.user._id).select('+collectingAnswers')
     if (!me.collectingAnswers.map(item => item.toString()).includes(ctx.params.id)) {
       me.collectingAnswers.push(ctx.params.id)

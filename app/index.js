@@ -29,5 +29,5 @@ app.use(parameter(app))
 routing(app)
 
 app.listen(3000, () => {
-  console.log('start server...');
+  console.log('start server at port 3000');
 })
